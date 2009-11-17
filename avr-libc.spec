@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:           avr-libc
-BuildRequires:  cross-avr-binutils cross-avr-gcc42 doxygen findutils
+BuildRequires:  cross-avr-binutils cross-avr-gcc doxygen findutils
 Version:        1.6.1
 Release:        6.1
 Url:            http://savannah.nongnu.org/projects/avr-libc
@@ -27,7 +27,7 @@ Source5:        avr_common.mk
 Patch:          contrib-examples.diff
 AutoReqProv:    on
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Requires:       cross-avr-binutils cross-avr-gcc42 avr-programmer
+Requires:       cross-avr-binutils cross-avr-gcc
 
 %description
 The C runtime library for the AVR family of microcontrollers for use
@@ -59,7 +59,7 @@ Authors:
 %build
 export CFLAGS="$RPM_OPT_FLAGS"
 export CXXFLAGS="$RPM_OPT_FLAGS"
-export PREFIX=/opt/cross
+export PREFIX=%{_prefix}
 export PATH=$PREFIX/bin:$PATH
 # export NO_BRP_STRIP_DEBUG=true
 ## silly hack, to be removed when the target is no longer avr-elf but avr.
@@ -71,35 +71,38 @@ export PATH=$PREFIX/bin:$PATH
 make %{?jobs:-j%jobs}
 
 %install
-export PREFIX=/opt/cross
+rm -rf $RPM_BUILD_ROOT
+export PREFIX=%{_prefix}
 export PATH=$PREFIX/bin:$PATH
 cp %{S:4} %{S:5} doc/examples
 # ./domake DESTDIR=$RPM_BUILD_ROOT install
 make DESTDIR=$RPM_BUILD_ROOT install
 tar jxvf %{S:1}
 mv %{name}-user-manual-%{version} user-manual-%{version}
-mkdir -p $RPM_BUILD_ROOT/usr/share/doc/packages/%{name}
-cp -pr AUTHORS ChangeLog INSTALL LICENSE NEWS user-manual-%{version} $RPM_BUILD_ROOT/usr/share/doc/packages/%{name}
-ln -s /usr/share/doc/packages/%{name}/user-manual-%{version} $RPM_BUILD_ROOT/$PREFIX/share/doc/%{name}-%{version}/user-manual
+mkdir -p $RPM_BUILD_ROOT/usr/share/doc/%{name}-%{version}
+cp -pr AUTHORS ChangeLog INSTALL LICENSE NEWS user-manual-%{version} $RPM_BUILD_ROOT/usr/share/doc/%{name}-%{version}
 tar jxvf %{S:2} -C $RPM_BUILD_ROOT/$PREFIX/share
+mv $RPM_BUILD_ROOT/$PREFIX/share/man $RPM_BUILD_ROOT/usr/share/doc/%{name}-%{version}
 # gzipped to make http://dist.suse.de/data/i386/lint/avr-libc happy.
-find $RPM_BUILD_ROOT/$PREFIX/share/man -type f -print | xargs gzip
+find $RPM_BUILD_ROOT/usr/share/doc/%{name}-%{version}/man -type f -print | xargs gzip
 #
 ### selftest ###
 cd ../logicp*
 ## how do we tell the linker that crt*.o is at a nonstandard location?
-ln -s $RPM_BUILD_ROOT/opt/cross/avr/lib/crttn*.o .
-ln -s $RPM_BUILD_ROOT/opt/cross/avr/lib/avr?/crtm*.o .
-make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/opt/cross/avr/include/ -L$RPM_BUILD_ROOT/opt/cross/avr/lib/avr4" CPU=mega8
-make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/opt/cross/avr/include/ -L$RPM_BUILD_ROOT/opt/cross/avr/lib/avr4" CPU=mega48
-make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/opt/cross/avr/include/ -L$RPM_BUILD_ROOT/opt/cross/avr/lib"      CPU=tiny2313
+ln -sf $RPM_BUILD_ROOT/$PREFIX/avr/lib/crttn*.o .
+ln -sf $RPM_BUILD_ROOT/$PREFIX/avr/lib/avr?/crtm*.o .
+make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/$PREFIX/avr/include/ -L$RPM_BUILD_ROOT/$PREFIX/avr/lib/avr4" CPU=mega8
+make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/$PREFIX/avr/include/ -L$RPM_BUILD_ROOT/$PREFIX/avr/lib/avr4" CPU=mega48
+make test CFLAGS="-Wall -g -Os -mint8 -I$RPM_BUILD_ROOT/$PREFIX/avr/include/ -L$RPM_BUILD_ROOT/$PREFIX/avr/lib"      CPU=tiny2313
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr (-, root, root)
-%doc /usr/share/doc/packages/%{name}
-/opt/*
+%doc /usr/share/doc/%{name}-%{version}
+%{_bindir}/avr-man
+%{_prefix}/avr/lib/*
+%{_prefix}/avr/include
 # %doc /usr/share/man/man?/*.*
 
