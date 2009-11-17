@@ -13,7 +13,7 @@
 Name:           avr-libc
 BuildRequires:  cross-avr-binutils cross-avr-gcc doxygen findutils
 Version:        1.6.1
-Release:        6.1
+Release:        7
 Url:            http://savannah.nongnu.org/projects/avr-libc
 Group:          Development/Libraries/C and C++
 License:        BSD 3-Clause
