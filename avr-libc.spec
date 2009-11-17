@@ -11,7 +11,6 @@
 # norootforbuild
 
 Name:           avr-libc
-BuildRequires:  cross-avr-binutils cross-avr-gcc doxygen findutils
 Version:        1.6.1
 Release:        7
 Url:            http://savannah.nongnu.org/projects/avr-libc
@@ -27,6 +26,10 @@ Source5:        avr_common.mk
 Patch:          contrib-examples.diff
 AutoReqProv:    on
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildRequires:  cross-avr-binutils >= 2.19.51.0.2-1mnb2
+BuildRequires:  cross-avr-gcc >= 4.4.1-1mnb2
+BuildRequires:  doxygen
+BuildRequires:  findutils
 Requires:       cross-avr-binutils cross-avr-gcc
 
 %description
