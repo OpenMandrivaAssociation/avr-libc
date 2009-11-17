@@ -12,9 +12,9 @@
 
 Name:           avr-libc
 Version:        1.6.1
-Release:        7
+Release:        %mkrel 7
 Url:            http://savannah.nongnu.org/projects/avr-libc
-Group:          Development/Libraries/C and C++
+Group:          Development/C
 License:        BSD 3-Clause
 Summary:        The C Runtime Library for AVR Microcontrollers
 Source:         http://savannah.nongnu.org/download/%{name}/%{name}-%{version}.tar.bz2
