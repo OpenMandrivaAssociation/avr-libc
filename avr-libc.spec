@@ -11,7 +11,7 @@
 # norootforbuild
 
 Name:           avr-libc
-Version:        1.6.7
+Version:        1.6.8
 Release:        %mkrel 1
 Url:            http://savannah.nongnu.org/projects/avr-libc
 Group:          Development/C
