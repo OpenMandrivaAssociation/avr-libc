@@ -12,7 +12,7 @@
 
 Name:           avr-libc
 Version:        1.6.8
-Release:        %mkrel 1
+Release:        %mkrel 2
 Url:            http://savannah.nongnu.org/projects/avr-libc
 Group:          Development/C
 License:        BSD 3-Clause
