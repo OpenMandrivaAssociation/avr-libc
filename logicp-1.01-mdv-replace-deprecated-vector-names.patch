@@ -1,0 +1,49 @@
+Index: logicp-1.01/rs232.h
+===================================================================
+--- logicp-1.01.orig/rs232.h
++++ logicp-1.01/rs232.h
+@@ -27,16 +27,16 @@
+ #ifdef __AVR_ATmega8__
+ // we have silly names for the USART interrupts
+ // make them compatible with attiny2313
+-# define SIG_USART0_UDRE SIG_UART_DATA
+-# define SIG_USART0_RX   SIG_UART_RECV
+-# define SIG_USART0_TX   SIG_UART_TRANS
++# define USART0_RX_vect   USART_RXC_vect 
++# define USART0_TX_vect   USART_TXC_vect
++# define USART0_UDRE_vect USART_UDRE_vect
+ #endif
+ 
+ #ifdef __AVR_ATmega48__
+ // again, they renamed things in avr/iomx8.h
+-# define SIG_USART0_RX   SIG_USART_RECV
+-# define SIG_USART0_TX   SIG_USART_TRANS
+-# define SIG_USART0_UDRE SIG_USART_DATA
++# define USART0_RX_vect   USART_RX_vect 
++# define USART0_TX_vect   USART_TX_vect
++# define USART0_UDRE_vect USART_UDRE_vect
+ 
+ # define UDR 	UDR0
+ 
+Index: logicp-1.01/rs232.c
+===================================================================
+--- logicp-1.01.orig/rs232.c
++++ logicp-1.01/rs232.c
+@@ -45,7 +45,7 @@ volatile        uint8_t rs232_headroom;
+ #if RS232_RECEIVE
+ static void (*rs232_rxd_cb)(uint8_t) = (void(*)(uint8_t))0;
+ 
+-SIGNAL(SIG_USART0_RX)
++ISR(USART0_RX_vect)
+ {
+   uint8_t ch = UDR;
+   if (rs232_rxd_cb) rs232_rxd_cb(ch);
+@@ -92,7 +92,7 @@ void rs232_init(uint16_t ubrr)
+ }
+ 
+ 
+-SIGNAL(SIG_USART0_UDRE)
++ISR(USART0_UDRE_vect)
+ {
+   if (rs232_headroom < RS232_BUF_SIZE)
+     {

@@ -1,0 +1,6 @@
+sources:
+  "avr-libc-1.8.0.tar.bz2:"	2e3815221be8e22f5f2c07b922ce92ecfa85bade
+  "avr-libc-manpages-1.8.0.tar.bz2:"	586cf60bb9d2b67498b73b38b546f7b4620dc86c
+  "avr-libc.rpmlintrc:"	51b208e10ee22804bc397f7e0a0578a6a063d26d
+  "avr-libc-user-manual-1.8.0.tar.bz2:"	54f991e63c46eb430986bea3bae0e28cbe0b87c8
+  "logicp-1.01.tgz:"	e1cf24cf8ad1188b72ee3324c5c1da389a08c78d
