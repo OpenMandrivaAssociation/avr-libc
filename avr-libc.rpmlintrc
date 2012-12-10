@@ -1,0 +1,3 @@
+setBadness('arch-independent-package-contains-binary-or-object', 0)
+addFilter("W: arch-independent-package-contains-binary-or-object ")
+addFilter("W: devel-file-in-non-devel-package ")
