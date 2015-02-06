@@ -8,7 +8,7 @@
 
 Name:		avr-libc
 Version:	1.8.0
-Release:	1
+Release:	2
 Url:		http://savannah.nongnu.org/projects/avr-libc
 Group:		Development/C
 License:	BSD
