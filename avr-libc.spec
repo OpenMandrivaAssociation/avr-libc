@@ -20,6 +20,11 @@ Source3:	logicp-1.01.tgz
 Source4:	%{name}.rpmlintrc
 Patch100:	logicp-1.01-mdv-replace-deprecated-vector-names.patch
 AutoReqProv:	on
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	cross-avr-binutils >= 2.21.1
 BuildRequires:	cross-avr-gcc >= 4.6.1
 BuildRequires:	doxygen
